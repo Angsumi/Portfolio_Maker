@@ -1,0 +1,47 @@
+{
+  "client": {
+    "id": "client_demo_alex_vance",
+    "slug": "dr-alex-vance",
+    "fullName": "Dr. Alex Vance",
+    "title": "Senior Bioinformatician & Genomic Data Researcher",
+    "email": "alex.vance@genomics-lab.org",
+    "phone": "+91 98765 12345",
+    "location": "Guwahati, Assam, India",
+    "bio": "CSIR NET JRF Awardee (AIR 180) specializing in computational genomics, structural biology, and ethnopharmacology data analysis across Northeast India.",
+    "badges": ["CSIR NET AIR 180", "IELTS C1 Band", "M.Sc. Gold Medalist", "8+ Publications"],
+    "template": "warm",
+    "securityMode": "public"
+  },
+  "documents": [
+    {
+      "id": "doc_aadhaar_001",
+      "title": "Aadhaar Card (National ID)",
+      "category": "Aadhaar & Identity",
+      "authority": "UIDAI Govt of India",
+      "issueDate": "2021-05-12",
+      "privacy": "public",
+      "fileType": "pdf",
+      "fileName": "doc_sec_a7f9b2.pdf"
+    },
+    {
+      "id": "doc_pan_002",
+      "title": "Permanent Account Number (PAN Card)",
+      "category": "PAN & Tax",
+      "authority": "Income Tax Dept Govt of India",
+      "issueDate": "2020-02-18",
+      "privacy": "public",
+      "fileType": "png",
+      "fileName": "doc_sec_c3e8d1.png"
+    },
+    {
+      "id": "doc_csir_003",
+      "title": "CSIR-UGC NET JRF Award Letter",
+      "category": "Competitive Exam Credentials",
+      "authority": "CSIR Human Resource Development Group",
+      "issueDate": "2023-01-15",
+      "privacy": "public",
+      "fileType": "pdf",
+      "fileName": "doc_sec_e91a4f.pdf"
+    }
+  ]
+}

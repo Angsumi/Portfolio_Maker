@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="warm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{CLIENT_NAME}} | Official Document Vault Portfolio</title>
+    <meta name="description" content="Verified Document Vault and Personal Credentials Portfolio for {{CLIENT_NAME}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="client.css">
+</head>
+<body>
+
+    <!-- Passcode Protection Lock Screen (Optional) -->
+    <div id="lockScreen" class="lock-screen" style="display: none;">
+        <div class="lock-card">
+            <div class="lock-icon"><i class="fas fa-user-lock"></i></div>
+            <h2 style="font-size: 1.35rem; font-weight: 700;">Protected Document Vault</h2>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">This document portfolio is passcode protected. Enter client access PIN to view.</p>
+            <input type="password" id="pinInput" class="search-input" placeholder="Enter 4-Digit PIN" style="text-align: center; font-size: 1.2rem; letter-spacing: 0.2em;">
+            <p id="pinError" style="color: #f43f5e; font-size: 0.8rem; display: none;">Invalid PIN code. Please try again.</p>
+            <button class="btn-card" id="unlockBtn" style="background: var(--accent-primary); color: #fff; justify-content: center; padding: 0.65rem;">
+                Unlock Vault <i class="fas fa-key"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header class="site-header">
+        <div class="container header-flex">
+            <a href="#" class="brand-wrap">
+                <div id="brandAvatarWrap">
+                    <div class="brand-avatar-placeholder"><i class="fas fa-user"></i></div>
+                </div>
+                <div>
+                    <div class="brand-name" id="clientName">{{CLIENT_NAME}}</div>
+                    <div class="brand-sub">Verified Digital Document Vault</div>
+                </div>
+            </a>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                <button class="btn-card" id="openGlobalCustomDownloadBtn">
+                    <i class="fas fa-sliders-h text-emerald-500"></i> Custom Format & Size Studio
+                </button>
+                <button class="btn-card" id="openBinderBtn">
+                    <i class="fas fa-file-pdf text-amber-500"></i> Combined PDF Binder
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-grid">
+            <div>
+                <div class="hero-profile-row">
+                    <div id="heroAvatarWrap"></div>
+                    <div>
+                        <h1 class="hero-title" id="clientNameHero">{{CLIENT_NAME}}</h1>
+                        <div class="hero-subtitle" id="clientTitle">{{CLIENT_TITLE}}</div>
+                        <div class="hero-tagline" id="clientTagline">{{CLIENT_TAGLINE}}</div>
+                    </div>
+                </div>
+
+                <p class="hero-bio" id="clientBio">{{CLIENT_BIO}}</p>
+
+                <!-- Social Links -->
+                <div class="social-pill-row" id="socialPillRow"></div>
+
+                <!-- Status Badges -->
+                <div class="badge-row" id="badgeContainer"></div>
+            </div>
+
+            <!-- Side Verification Card -->
+            <div class="hero-card">
+                <div class="hero-card-title">
+                    <i class="fas fa-shield-alt text-emerald-500"></i> Vault Verification Card
+                </div>
+                <div class="hero-card-item" id="clientEmail">
+                    <i class="fas fa-envelope"></i> Verified Email On File
+                </div>
+                <div class="hero-card-item" id="clientPhone">
+                    <i class="fas fa-phone"></i> Official Contact Verified
+                </div>
+                <div class="hero-card-item" id="clientLocation">
+                    <i class="fas fa-map-marker-alt"></i> Location Verified
+                </div>
+                <div style="padding-top: 0.5rem; border-top: 1px solid var(--border-subtle); font-size: 0.76rem; color: var(--text-muted); font-family: var(--font-mono);">
+                    🔒 Obfuscated Asset Hashing Active
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4-Box Key Statistics Grid -->
+    <div class="container">
+        <div class="stats-grid" id="keyStatsGrid"></div>
+    </div>
+
+    <!-- Document Library Section -->
+    <main class="container">
+        <div class="filter-bar">
+            <div class="filter-pills" id="categoryBar"></div>
+            <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search document library...">
+        </div>
+
+        <section class="doc-grid-section">
+            <div class="doc-grid" id="documentGrid"></div>
+        </section>
+    </main>
+
+    <!-- In-Page Document Lightbox Modal -->
+    <div class="lightbox-overlay" id="lightboxModal">
+        <div class="lightbox-modal">
+            <div class="lightbox-header">
+                <h3 id="lightboxTitle" style="font-size: 1.1rem; font-weight: 700;">Document Preview</h3>
+                <button class="btn-card" id="closeLightbox">&times;</button>
+            </div>
+            <div class="lightbox-body" id="lightboxBody"></div>
+        </div>
+    </div>
+
+    <!-- Combined PDF Binder Modal -->
+    <div class="lightbox-overlay" id="binderModal">
+        <div class="lightbox-modal" style="max-width: 600px;">
+            <div class="lightbox-header">
+                <h3>Generate Combined PDF Dossier</h3>
+                <button class="btn-card" id="closeBinder">&times;</button>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Select client documents to include in a single compiled PDF file:</p>
+                <div id="binderDocList" style="display: flex; flex-direction: column; gap: 0.65rem; max-height: 300px; overflow-y: auto;"></div>
+                <button class="btn-card" id="compilePdfBtn" style="background: var(--accent-primary); color: #fff; justify-content: center; padding: 0.75rem; font-size: 0.95rem;">
+                    <i class="fas fa-file-download"></i> Download Combined PDF Dossier
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Format & Size Download Modal -->
+    <div class="lightbox-overlay" id="customDownloadModal">
+        <div class="lightbox-modal" style="max-width: 580px;">
+            <div class="lightbox-header">
+                <h3 style="font-size: 1.1rem; font-weight: 700;"><i class="fas fa-sliders-h text-emerald-500"></i> Custom Format & Size Download Studio</h3>
+                <button class="btn-card" id="closeCustomDownload">&times;</button>
+            </div>
+            <div style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Select Document to Customize</label>
+                    <select id="clientModalDocSelect" class="search-input" style="width: 100%;"></select>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Export Format</label>
+                        <select id="clientModalFormat" class="search-input" style="width: 100%;">
+                            <option value="jpg">Optimized JPG (.jpg)</option>
+                            <option value="png">High-Res PNG (.png)</option>
+                            <option value="pdf">PDF Document (.pdf)</option>
+                            <option value="webp">WebP Compact (.webp)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 0.35rem;">Size Preset</label>
+                        <select id="clientModalPreset" class="search-input" style="width: 100%;">
+                            <option value="custom">Custom Dimensions</option>
+                            <option value="original">Original Aspect Ratio</option>
+                            <option value="passport">Passport Photo (35x45mm)</option>
+                            <option value="a4">Standard A4 Document</option>
+                            <option value="idcard">Identity Card (85x54mm)</option>
+                            <option value="square">Square Aspect (1:1)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="background: rgba(0,0,0,0.03); padding: 1rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700;">Exact Canvas Dimensions</span>
+                        <label style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;">
+                            <input type="checkbox" id="clientModalLockAspect" checked> Lock Aspect Ratio
+                        </label>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Width (px)</span>
+                            <input type="number" id="clientModalWidth" class="search-input" value="800" style="width: 100%;">
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted);">Height (px)</span>
+                            <input type="number" id="clientModalHeight" class="search-input" value="600" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.35rem; margin-top: 0.65rem; flex-wrap: wrap;">
+                        <button type="button" class="btn-card modal-scale-btn" data-scale="0.25">25%</button>
+                        <button type="button" class="btn-card modal-scale-btn" data-scale="0.50">50%</button>
+                        <button type="button" class="btn-card modal-scale-btn" data-scale="0.75">75%</button>
+                        <button type="button" class="btn-card modal-scale-btn" data-scale="1.00">100%</button>
+                        <button type="button" class="btn-card modal-scale-btn" data-scale="1.50">150%</button>
+                    </div>
+                </div>
+                <div>
+                    <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-main); display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+                        <span>Image Compression Quality</span>
+                        <span id="clientModalQualityVal" style="color: var(--accent-primary); font-weight: 700;">85%</span>
+                    </label>
+                    <input type="range" id="clientModalQuality" min="0.1" max="1.0" step="0.05" value="0.85" style="width: 100%; accent-color: var(--accent-primary);">
+                </div>
+                <button class="btn-card" id="triggerClientCustomDownload" style="background: var(--accent-primary); color: #fff; justify-content: center; padding: 0.75rem; font-size: 0.95rem; font-weight: 700;">
+                    <i class="fas fa-download"></i> 1-Click Download Custom File Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="border-top: 1px solid var(--border-color); padding: 2rem 0; text-align: center; font-size: 0.82rem; color: var(--text-muted); margin-top: 3rem;">
+        <div class="container">
+            <p>Official Digital Document Vault &copy; 2026 {{CLIENT_NAME}}. All Rights Reserved.</p>
+            <p style="margin-top: 0.4rem; opacity: 0.75;">Powered by Local-First Client Document-Portfolio Generator Engine.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.CLIENT_DATA = {{CLIENT_DATA_JSON}};
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

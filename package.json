@@ -1,0 +1,18 @@
+{
+  "name": "client-vault-generator-studio",
+  "version": "1.0.0",
+  "description": "Local-first client document-portfolio generator & automated GitHub Pages deployment studio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "document-vault",
+    "portfolio-generator",
+    "local-first",
+    "github-pages"
+  ],
+  "author": "Angsuman Das",
+  "license": "MIT"
+}

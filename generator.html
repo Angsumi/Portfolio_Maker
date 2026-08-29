@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Document Vault Generator Studio | Local-First Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="generator.css">
+</head>
+<body>
+
+    <!-- Header Bar -->
+    <header class="studio-header">
+        <div class="brand-badge">
+            <div class="brand-icon">
+                <i class="fas fa-cubes"></i>
+            </div>
+            <div>
+                <div class="brand-title">Client Vault Generator Studio</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">Local-First Personal Document Portfolio Engine</div>
+            </div>
+            <span class="brand-tag">v2.5 Private</span>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn btn-secondary btn-sm" id="loadDemoBtn" title="Pre-load Sample Client Data">
+                <i class="fas fa-magic text-amber-400"></i> Load Demo Client
+            </button>
+            <button class="btn btn-secondary btn-sm" id="exportVaultBtn" title="Export Client Database JSON">
+                <i class="fas fa-file-export"></i> Backup Database
+            </button>
+            <a href="index.html" class="btn btn-secondary btn-sm">
+                <i class="fas fa-arrow-left"></i> Back to Main Portfolio
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Studio Layout -->
+    <div class="studio-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="studio-sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Active Client Workspace</div>
+                <select id="clientSelect" class="client-select-box">
+                    <option value="">-- Select Client --</option>
+                </select>
+                <button class="btn btn-primary btn-sm" id="createNewClientBtn" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Create New Client
+                </button>
+            </div>
+
+            <div class="sidebar-section" style="flex: 1;">
+                <div class="sidebar-title">Workflow Pipeline</div>
+                <button class="nav-menu-btn active" data-tab="tab-profile">
+                    <i class="fas fa-id-card"></i> 01 • Client Profile & Info
+                </button>
+                <button class="nav-menu-btn" data-tab="tab-documents">
+                    <i class="fas fa-folder-open"></i> 02 • Ingest & Classify
+                </button>
+                <button class="nav-menu-btn" data-tab="tab-processing">
+                    <i class="fas fa-crop-alt"></i> 03 • Crop, Resize & Convert
+                </button>
+                <button class="nav-menu-btn" data-tab="tab-binder">
+                    <i class="fas fa-file-pdf"></i> 04 • Combined PDF Dossier
+                </button>
+                <button class="nav-menu-btn" data-tab="tab-templates">
+                    <i class="fas fa-palette"></i> 05 • Template & Security
+                </button>
+                <button class="nav-menu-btn" data-tab="tab-preview">
+                    <i class="fas fa-globe"></i> 06 • Live Preview & Export
+                </button>
+            </div>
+
+            <div class="sidebar-section" style="padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                <div style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+                    <i class="fas fa-shield-alt text-emerald-400"></i> <strong>100% Local-First Engine</strong><br>
+                    Files stay encrypted in your local browser sandbox.
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace View -->
+        <main class="studio-main">
+
+            <!-- TAB 1: CLIENT PROFILE -->
+            <section id="tab-profile" class="workspace-tab active">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Client Profile & Credentials</h2>
+                        <p>Configure personal details, academic headline, contact information, and security PIN.</p>
+                    </div>
+                    <button class="btn btn-primary" id="saveProfileBtn">
+                        <i class="fas fa-save"></i> Save Profile
+                    </button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Client Full Name *</label>
+                        <input type="text" id="clientFullName" class="form-input" placeholder="e.g. Dr. Alex Vance">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Professional Title / Designation</label>
+                        <input type="text" id="clientTitle" class="form-input" placeholder="e.g. Senior Bioinformatician & Genomic Data Researcher">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Hero Tagline / Research Motto</label>
+                        <input type="text" id="clientTagline" class="form-input" placeholder="e.g. BRIDGING ZOOLOGY, GENOMIC DATA SCIENCE & BIOINFORMATICS">
+                    </div>
+                    <div class="form-group full-width" style="background: var(--bg-card); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <label class="form-label"><i class="fas fa-camera text-emerald-400"></i> Client Profile Photo Upload</label>
+                        <div style="display: flex; align-items: center; gap: 1.25rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                            <div id="avatarPreviewContainer" style="width: 72px; height: 72px; border-radius: 50%; background: rgba(16, 185, 129, 0.1); border: 2px dashed var(--accent-emerald); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
+                                <i id="avatarPlaceholderIcon" class="fas fa-user-circle" style="font-size: 2.2rem; color: var(--text-muted);"></i>
+                                <img id="avatarPreviewImg" style="display: none; width: 100%; height: 100%; object-fit: cover;" alt="Avatar Preview">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.4rem; flex: 1;">
+                                <input type="file" id="clientAvatarFileInput" accept="image/*" style="display: none;">
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <button class="btn btn-secondary btn-sm" type="button" onclick="document.getElementById('clientAvatarFileInput').click()">
+                                        <i class="fas fa-upload"></i> Upload Photo from Device
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" type="button" id="removeAvatarBtn" style="display: none;">
+                                        <i class="fas fa-trash"></i> Remove Photo
+                                    </button>
+                                </div>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Upload JPG, PNG, WEBP image file. Automatically converted & saved locally.</span>
+                                <input type="hidden" id="clientAvatarUrl">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" id="clientEmail" class="form-input" placeholder="client@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone / WhatsApp</label>
+                        <input type="text" id="clientPhone" class="form-input" placeholder="+91 98765 43210">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Location / Institution</label>
+                        <input type="text" id="clientLocation" class="form-input" placeholder="Guwahati, Assam, India">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Client Access Passcode / PIN (Optional Security)</label>
+                        <input type="password" id="clientPin" class="form-input" placeholder="4-digit PIN for passcode lock screen">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Summary Bio & Professional Narrative</label>
+                        <textarea id="clientBio" class="form-textarea" placeholder="Enter brief client background, achievements, and research focus..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Key Status Badges (Comma Separated)</label>
+                        <input type="text" id="clientBadges" class="form-input" placeholder="e.g. CSIR NET AIR 180, IELTS C1 7.0, M.Sc. Gold Medalist">
+                    </div>
+
+                    <!-- Social Links Sub-Section -->
+                    <div class="form-group full-width" style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                        <h4 style="color: #fff; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;"><i class="fas fa-share-alt text-emerald-400"></i> Social Profiles & Academic Portfolios</h4>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fab fa-linkedin text-sky-400"></i> LinkedIn Profile URL</label>
+                        <input type="url" id="clientLinkedin" class="form-input" placeholder="https://linkedin.in/in/username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fab fa-github"></i> GitHub Profile URL</label>
+                        <input type="url" id="clientGithub" class="form-input" placeholder="https://github.com/username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-microscope text-teal-400"></i> ResearchGate / Google Scholar URL</label>
+                        <input type="url" id="clientResearchgate" class="form-input" placeholder="https://researchgate.net/profile/username">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-id-badge text-emerald-400"></i> ORCID ID URL</label>
+                        <input type="url" id="clientOrcid" class="form-input" placeholder="https://orcid.org/0000-0000-0000-0000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-globe text-sky-400"></i> Personal Website / Blog URL</label>
+                        <input type="url" id="clientWebsite" class="form-input" placeholder="https://alexvance.bio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label"><i class="fab fa-x-twitter"></i> X / Twitter URL</label>
+                        <input type="url" id="clientTwitter" class="form-input" placeholder="https://x.com/username">
+                    </div>
+
+                    <!-- 4-Box Highlight Counter Cards Sub-Section -->
+                    <div class="form-group full-width" style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
+                        <h4 style="color: #fff; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;"><i class="fas fa-chart-bar text-amber-400"></i> Key Statistics Highlight Cards (4-Box Grid)</h4>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 1 Value</label>
+                        <input type="text" id="stat1Val" class="form-input" placeholder="e.g. AIR 180">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 1 Label</label>
+                        <input type="text" id="stat1Lbl" class="form-input" placeholder="e.g. CSIR NET JRF RANK">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 2 Value</label>
+                        <input type="text" id="stat2Val" class="form-input" placeholder="e.g. 8+ PAPERS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 2 Label</label>
+                        <input type="text" id="stat2Lbl" class="form-input" placeholder="e.g. PEER-REVIEWED PUBLICATIONS">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 3 Value</label>
+                        <input type="text" id="stat3Val" class="form-input" placeholder="e.g. BAND 7.0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 3 Label</label>
+                        <input type="text" id="stat3Lbl" class="form-input" placeholder="e.g. IELTS ACADEMIC C1">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 4 Value</label>
+                        <input type="text" id="stat4Val" class="form-input" placeholder="e.g. CGPA 8.85">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stat 4 Label</label>
+                        <input type="text" id="stat4Lbl" class="form-input" placeholder="e.g. M.SC. ZOOLOGY GOLD MEDAL">
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: DOCUMENT INGESTION & CLASSIFICATION -->
+            <section id="tab-documents" class="workspace-tab">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Document Ingestion & Category Classifier</h2>
+                        <p>Upload files of any standard type (PDF, JPG, PNG, WEBP, DOCX) and organize into client vault categories.</p>
+                    </div>
+                </div>
+
+                <!-- Drag & Drop Zone -->
+                <div class="dropzone" id="fileDropzone">
+                    <div class="dropzone-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="dropzone-title">Drag & Drop Client Documents Here</div>
+                    <div class="dropzone-desc">Supports PDF, JPG, PNG, WEBP, DOC/DOCX. Files are processed locally with automatic PII filename obfuscation.</div>
+                    <input type="file" id="fileInput" multiple style="display: none;" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx">
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-folder-open"></i> Browse Local Files
+                    </button>
+                </div>
+
+                <!-- Category Filters & Search -->
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" id="categoryPillBar">
+                        <!-- Dynamic Pills -->
+                    </div>
+                    <input type="text" id="docSearchBox" class="form-input" placeholder="🔍 Search uploaded docs..." style="max-width: 260px;">
+                </div>
+
+                <!-- Uploaded Document Cards Grid -->
+                <div class="doc-grid" id="docCardsGrid">
+                    <!-- Dynamic Document Cards -->
+                </div>
+            </section>
+
+            <!-- TAB 3: CROP, RESIZE & FORMAT CONVERTER -->
+            <section id="tab-processing" class="workspace-tab">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Document Processing, Sizing & Format Studio</h2>
+                        <p>Resize, crop, and convert documents into standardized formats (Passport, A4, ID Card, PNG/JPG/PDF) without quality degradation.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Select Document to Process</label>
+                        <select id="processDocSelect" class="form-select">
+                            <option value="">-- Choose Uploaded Document --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Target Export Format</label>
+                        <select id="processFormatSelect" class="form-select">
+                            <option value="jpg">Optimized JPG (.jpg)</option>
+                            <option value="png">High-Res PNG (.png)</option>
+                            <option value="pdf">Convert to PDF Document (.pdf)</option>
+                            <option value="webp">WebP Compact Image (.webp)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Aspect Ratio & Size Preset</label>
+                        <select id="processPresetSelect" class="form-select">
+                            <option value="custom" selected>Custom Dimensions (Set Exact W x H in px)</option>
+                            <option value="original">Original Aspect Ratio & Resolution</option>
+                            <option value="passport">Passport Photo Size (35mm x 45mm / 413x531 px)</option>
+                            <option value="a4">Standard A4 Document (210mm x 297mm / 595x842 px)</option>
+                            <option value="idcard">Identity Card Ratio (85.6mm x 54mm / 504x318 px)</option>
+                            <option value="square">Square Aspect Ratio (1:1 / 500x500 px)</option>
+                            <option value="fullhd">Full HD Presentation (1920x1080 px)</option>
+                        </select>
+                    </div>
+
+                    <!-- Custom Dimensions Control Box -->
+                    <div class="form-group full-width" id="customDimensionsPanel" style="background: var(--bg-card); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                            <h4 style="color: #fff; font-size: 0.95rem; font-weight: 700; margin: 0;"><i class="fas fa-ruler-combined text-emerald-400"></i> Custom Canvas Dimensions & Scaling</h4>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); cursor: pointer;">
+                                <input type="checkbox" id="customLockAspect" checked> Lock Aspect Ratio
+                            </label>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: center;">
+                            <div>
+                                <label class="form-label">Custom Width (Pixels)</label>
+                                <input type="number" id="customWidthPx" class="form-input" placeholder="800" min="50" max="8000">
+                            </div>
+                            <div>
+                                <label class="form-label">Custom Height (Pixels)</label>
+                                <input type="number" id="customHeightPx" class="form-input" placeholder="600" min="50" max="8000">
+                            </div>
+                            <div>
+                                <label class="form-label">Quick Scale</label>
+                                <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                                    <button type="button" class="btn btn-secondary btn-sm scale-btn" data-scale="0.25">25%</button>
+                                    <button type="button" class="btn btn-secondary btn-sm scale-btn" data-scale="0.50">50%</button>
+                                    <button type="button" class="btn btn-secondary btn-sm scale-btn" data-scale="0.75">75%</button>
+                                    <button type="button" class="btn btn-secondary btn-sm scale-btn" data-scale="1.00">100%</button>
+                                    <button type="button" class="btn btn-secondary btn-sm scale-btn" data-scale="1.50">150%</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label" style="display: flex; justify-content: space-between;">
+                            <span>Compression & File Quality Slider</span>
+                            <span id="qualityValDisplay" style="color: var(--accent-emerald); font-weight: 700;">85% (Web Optimized)</span>
+                        </label>
+                        <input type="range" id="processQualitySlider" min="0.1" max="1.0" step="0.05" value="0.85" style="width: 100%; accent-color: var(--accent-emerald);">
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1.25rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="downloadCustomFileBtn" style="background: linear-gradient(135deg, #10B981, #059669); font-size: 0.95rem;">
+                        <i class="fas fa-download"></i> 1-Click Download Custom File
+                    </button>
+                    <button class="btn btn-secondary" id="applyProcessingBtn">
+                        <i class="fas fa-plus-circle"></i> Save Variant to Client Vault
+                    </button>
+                </div>
+
+                <div id="processingPreviewArea" style="margin-top: 1.5rem; display: none; background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <h4 style="color: #fff; margin-bottom: 1rem;">Processed Variant Output Preview</h4>
+                    <div id="processingOutputContent" style="max-height: 400px; overflow: auto; text-align: center;">
+                        <!-- Canvas / Preview -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: COMBINED PDF DOSSIER BUILDER -->
+            <section id="tab-binder" class="workspace-tab">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Combined Multi-Document PDF Dossier Builder</h2>
+                        <p>Select multiple client documents and compile them into a single, unified PDF document packet.</p>
+                    </div>
+                    <button class="btn btn-accent" id="buildCombinedPdfBtn">
+                        <i class="fas fa-file-pdf"></i> Generate Combined PDF
+                    </button>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <!-- Available Docs Picker -->
+                    <div style="background: var(--bg-card); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: #fff; margin-bottom: 0.75rem;">Available Vault Documents</h4>
+                        <div id="binderAvailableList" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 400px; overflow-y: auto;">
+                            <!-- Dynamic items -->
+                        </div>
+                    </div>
+
+                    <!-- Selected Page Queue Basket -->
+                    <div style="background: var(--bg-card); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color);">
+                        <h4 style="color: #fff; margin-bottom: 0.75rem;">Selected PDF Packet Queue</h4>
+                        <div id="binderQueueList" class="pdf-queue-list" style="max-height: 400px; overflow-y: auto;">
+                            <!-- Queue items -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: TEMPLATE & SECURITY -->
+            <section id="tab-templates" class="workspace-tab">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Website Template, Theme & Security Controls</h2>
+                        <p>Choose visual theme presentation and privacy security rules for this client's site.</p>
+                    </div>
+                </div>
+
+                <div class="template-grid">
+                    <div class="template-card selected" data-template="warm">
+                        <div class="template-preview-box template-box-warm">
+                            <span>⚜️ Warm Editorial</span>
+                        </div>
+                        <h4 style="color: #fff;">Soothing Warm Light</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Eye-soothing canvas with soft sage and teal accents. Modeled on Angsuman's signature portfolio.</p>
+                    </div>
+
+                    <div class="template-card" data-template="slate">
+                        <div class="template-preview-box template-box-slate">
+                            <span>⚡ Slate Cyber</span>
+                        </div>
+                        <h4 style="color: #fff;">Slate Cyber Dark</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Deep dark slate canvas with luminous sky-blue and emerald glassmorphic cards.</p>
+                    </div>
+
+                    <div class="template-card" data-template="corporate">
+                        <div class="template-preview-box template-box-corporate">
+                            <span>🏛️ Executive</span>
+                        </div>
+                        <h4 style="color: #fff;">Executive Minimalist</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">Ultra-clean corporate white, crisp navy typography, and refined serif accent titles.</p>
+                    </div>
+                </div>
+
+                <div class="form-grid" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">Client Site Access Lock</label>
+                        <select id="siteSecurityMode" class="form-select">
+                            <option value="public">Open Access (No Passcode Lock)</option>
+                            <option value="pin">Protected Access (Requires Security PIN to View Vault)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Asset Filename Obfuscation</label>
+                        <select id="filenameSecurityMode" class="form-select">
+                            <option value="enabled">Enabled (Auto-hash sensitive document filenames)</option>
+                            <option value="disabled">Disabled (Preserve original clean filenames)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: LIVE PREVIEW & EXPORT -->
+            <section id="tab-preview" class="workspace-tab">
+                <div class="panel-header">
+                    <div class="panel-title-group">
+                        <h2>Live Website Preview & GitHub Pages Deployment</h2>
+                        <p>Inspect the generated client website, push directly to this GitHub repository, and share live client links.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                        <button class="btn btn-secondary" id="refreshPreviewBtn">
+                            <i class="fas fa-sync-alt"></i> Regenerate Site
+                        </button>
+                        <button class="btn btn-secondary" id="exportZipBtn">
+                            <i class="fas fa-file-archive"></i> Download ZIP
+                        </button>
+                        <button class="btn btn-primary" id="publishGithubBtn">
+                            <i class="fab fa-github"></i> Publish & Push to GitHub Pages
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GitHub Pages Deployment Link Banner -->
+                <div id="githubDeployBanner" style="display: none; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 1rem 1.25rem; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.95rem; font-weight: 700; color: #fff;">Live GitHub Pages URL Ready</div>
+                            <a id="githubLiveUrlLink" href="#" target="_blank" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-emerald); text-decoration: underline;">
+                                https://angsumi.github.io/Portfolio_Maker/clients/client-slug/
+                            </a>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-secondary btn-sm" id="copyLiveUrlBtn">
+                            <i class="fas fa-copy"></i> Copy Link
+                        </button>
+                        <a id="openLiveUrlBtn" href="#" target="_blank" class="btn btn-primary btn-sm">
+                            <i class="fas fa-external-link-alt"></i> Open Live Site
+                        </a>
+                    </div>
+                </div>
+
+                <div class="preview-container">
+                    <div class="preview-toolbar">
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <span style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);">Device Frame:</span>
+                            <div class="device-switcher">
+                                <button class="device-btn active" id="deviceDesktopBtn">
+                                    <i class="fas fa-desktop"></i> Desktop View
+                                </button>
+                                <button class="device-btn" id="deviceMobileBtn">
+                                    <i class="fas fa-mobile-alt"></i> Mobile View
+                                </button>
+                            </div>
+                        </div>
+                        <div id="siteShareableUrl" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-emerald);">
+                            blob:client-vault-site-live
+                        </div>
+                    </div>
+                    <div class="preview-viewport-wrap">
+                        <iframe id="previewIframe" class="preview-iframe"></iframe>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- DOCUMENT METADATA MODAL DRAWER -->
+    <div class="modal-overlay" id="docMetadataModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Edit Document Metadata</h3>
+                <button class="modal-close" id="closeMetadataModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="editDocId">
+                <div class="form-group">
+                    <label class="form-label">Document Title / Display Name *</label>
+                    <input type="text" id="editDocTitle" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category Classification *</label>
+                    <select id="editDocCategory" class="form-select">
+                        <option value="Aadhaar & Identity">Aadhaar & Identity</option>
+                        <option value="PAN & Tax">PAN & Tax</option>
+                        <option value="Academic Marksheets">Academic Marksheets</option>
+                        <option value="Degree Certificates">Degree Certificates</option>
+                        <option value="Competitive Exam Credentials">Competitive Exam Credentials</option>
+                        <option value="Experience & Service">Experience & Service</option>
+                        <option value="Publications & Research">Publications & Research</option>
+                        <option value="Applications & LORs">Applications & LORs</option>
+                        <option value="Custom & Miscellaneous">Custom & Miscellaneous</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Issuing Authority / Institution</label>
+                    <input type="text" id="editDocAuthority" class="form-input" placeholder="e.g. UIDAI / Gauhati University / CSIR HRDG">
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Issue Date</label>
+                        <input type="date" id="editDocIssueDate" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Expiry Date (Optional)</label>
+                        <input type="date" id="editDocExpiryDate" class="form-input">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Privacy & Access Level</label>
+                    <select id="editDocPrivacy" class="form-select">
+                        <option value="public">Public (Visible & Previewable on Site)</option>
+                        <option value="protected">Protected (Requires Security PIN to View/Download)</option>
+                        <option value="private">Private (Operator Only - Omitted from Public Site)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Document Description / Notes</label>
+                    <textarea id="editDocDescription" class="form-textarea" placeholder="Additional details or verifications..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelMetadataBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveMetadataBtn">Save Document Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW CLIENT CREATION MODAL -->
+    <div class="modal-overlay" id="newClientModal">
+        <div class="modal-container" style="max-width: 480px;">
+            <div class="modal-header">
+                <h3>Create New Client Workspace</h3>
+                <button class="modal-close" id="closeNewClientModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Client Full Name *</label>
+                    <input type="text" id="newClientName" class="form-input" placeholder="e.g. Priyanshu Sharma">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Client Unique Identifier Slug</label>
+                    <input type="text" id="newClientSlug" class="form-input" placeholder="e.g. priyanshu-sharma" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Initial Security PIN (Optional)</label>
+                    <input type="password" id="newClientPin" class="form-input" placeholder="4-digit PIN">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelNewClientBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmCreateClientBtn">Create Client Workspace</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- JS Libraries (JSZip for local 1-click ZIP export, jsPDF for PDF compilation) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="generator.js"></script>
+</body>
+</html>
