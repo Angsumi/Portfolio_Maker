@@ -72,38 +72,18 @@ const server = http.createServer((req, res) => {
                     }
                 }
 
-                const liveUrl = `${REPO_OWNER_SITE}clients/${safeSlug}/`;
-                const localUrl = `http://localhost:${PORT}/clients/${safeSlug}/`;
+                const protocol = req.headers['x-forwarded-proto'] || (req.socket && req.socket.encrypted ? 'https' : 'http');
+                const host = req.headers['x-forwarded-host'] || req.headers.host || `localhost:${PORT}`;
+                const liveUrl = `${protocol}://${host}/clients/${safeSlug}/`;
 
-                if (autoGitPush) {
-                    // Execute Git commit & push to origin main from repository root
-                    const repoRoot = ROOT_DIR;
-                    const gitCmd = `git add clients/${safeSlug} && git commit -m "Publish client site: ${clientName || safeSlug}" && git push origin main`;
-                    exec(gitCmd, { cwd: repoRoot }, (error, stdout, stderr) => {
-                        let gitSuccess = !error;
-                        let gitMessage = gitSuccess ? 'Successfully pushed to GitHub repository!' : stderr || error.message;
-
-                        res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({
-                            success: true,
-                            clientSlug: safeSlug,
-                            liveUrl: liveUrl,
-                            localUrl: localUrl,
-                            gitPushed: gitSuccess,
-                            message: gitMessage
-                        }));
-                    });
-                } else {
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({
-                        success: true,
-                        clientSlug: safeSlug,
-                        liveUrl: liveUrl,
-                        localUrl: localUrl,
-                        gitPushed: false,
-                        message: 'Saved files locally to V1/clients folder.'
-                    }));
-                }
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({
+                    success: true,
+                    clientSlug: safeSlug,
+                    liveUrl: liveUrl,
+                    localUrl: liveUrl,
+                    message: `Client site published successfully at ${liveUrl}`
+                }));
 
             } catch (err) {
                 console.error('Publish API Error:', err);

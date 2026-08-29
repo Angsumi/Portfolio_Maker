@@ -1671,7 +1671,7 @@ function escapeHtml(str) {
         const publishBtn = document.getElementById('publishGithubBtn');
         if (publishBtn) {
             publishBtn.disabled = true;
-            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing & Pushing to GitHub...';
+            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publishing Live Site...';
         }
 
         fetch('/api/publish', {
@@ -1683,7 +1683,7 @@ function escapeHtml(str) {
         .then(data => {
             if (publishBtn) {
                 publishBtn.disabled = false;
-                publishBtn.innerHTML = '<i class="fab fa-github"></i> Publish & Push to GitHub Pages';
+                publishBtn.innerHTML = '<i class="fas fa-rocket"></i> Publish & Launch Live Site';
             }
 
             if (data.success) {
@@ -1702,22 +1702,22 @@ function escapeHtml(str) {
                 if (copyBtn) {
                     copyBtn.onclick = () => {
                         navigator.clipboard.writeText(data.liveUrl);
-                        showToast('Live GitHub Pages link copied to clipboard!');
+                        showToast('Live website link copied to clipboard!');
                     };
                 }
 
-                showToast(`Successfully published & pushed "${client.fullName}" to GitHub Pages!`);
+                showToast(`Successfully published "${client.fullName}" live!`);
             } else {
-                alert('Error publishing to GitHub Pages: ' + (data.error || 'Unknown error'));
+                alert('Error publishing site: ' + (data.error || 'Unknown error'));
             }
         })
         .catch(err => {
             if (publishBtn) {
                 publishBtn.disabled = false;
-                publishBtn.innerHTML = '<i class="fab fa-github"></i> Publish & Push to GitHub Pages';
+                publishBtn.innerHTML = '<i class="fas fa-rocket"></i> Publish & Launch Live Site';
             }
             console.error('Publish API Exception:', err);
-            const liveUrl = `https://angsumi.github.io/Portfolio_Maker/clients/${clientSlug}/`;
+            const liveUrl = `${window.location.origin}/clients/${clientSlug}/`;
             const banner = document.getElementById('githubDeployBanner');
             const liveLink = document.getElementById('githubLiveUrlLink');
             const openBtn = document.getElementById('openLiveUrlBtn');
@@ -1728,7 +1728,7 @@ function escapeHtml(str) {
                 liveLink.textContent = liveUrl;
             }
             if (openBtn) openBtn.href = liveUrl;
-            showToast(`Generated GitHub Pages Link: ${liveUrl}`);
+            showToast(`Generated Live Link: ${liveUrl}`);
         });
     }
 
