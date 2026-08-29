@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const ROOT_DIR = __dirname;
 const REPO_OWNER_SITE = "https://angsumi.github.io/Portfolio_Maker/";
 
