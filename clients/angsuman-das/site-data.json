@@ -1,0 +1,35 @@
+{
+  "profile": {
+    "fullName": "Angsuman",
+    "title": "Personal Document Portfolio",
+    "tagline": "",
+    "avatarUrl": "",
+    "bio": "",
+    "location": "",
+    "email": "",
+    "phone": "",
+    "badges": "",
+    "linkedin": "",
+    "github": "",
+    "researchgate": "",
+    "orcid": "",
+    "website": "",
+    "twitter": "",
+    "stats": [
+      {
+        "value": "VERIFIED",
+        "label": "DOCUMENT VAULT"
+      },
+      {
+        "value": "100%",
+        "label": "SECURITY ENCRYPTED"
+      }
+    ],
+    "pin": ""
+  },
+  "settings": {
+    "template": "slate",
+    "securityMode": "public"
+  },
+  "documents": []
+}
