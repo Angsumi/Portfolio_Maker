@@ -1,27 +1,39 @@
 # 💼 Portfolio Maker — Client Vault & Portfolio Studio
 
+[![Render Deployment](https://img.shields.io/badge/Deployment-Render.com-brightgreen.svg?logo=render)](https://portfolio-maker-aovl.onrender.com/generator.html)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](package.json)
 [![Node.js](https://img.shields.io/badge/Node.js-v18%2B-blue.svg)](https://nodejs.org/)
-[![GitHub Pages](https://img.shields.io/badge/Deployment-GitHub%20Pages-brightgreen.svg)](https://angsumi.github.io/Portfolio_Maker/)
 
-> A privacy-focused, local-first web application for building, previewing, and hosting high-impact client document portfolios and credential vaults with one-click automated GitHub Pages deployment.
+> A privacy-focused web application and Node.js server engine for building, previewing, and hosting high-impact client document portfolios and credential vaults live on **Render.com**.
+
+---
+
+## 🌐 Live Deployments
+
+| Component | Live URL |
+| :--- | :--- |
+| 🎨 **Studio Builder UI** | [https://portfolio-maker-aovl.onrender.com/generator.html](https://portfolio-maker-aovl.onrender.com/generator.html) |
+| 💼 **Live Client Portfolio (`angsuman`)** | [https://portfolio-maker-aovl.onrender.com/clients/angsuman/](https://portfolio-maker-aovl.onrender.com/clients/angsuman/) |
+| 💼 **Live Client Portfolio (`angsuman-das`)** | [https://portfolio-maker-aovl.onrender.com/clients/angsuman-das/](https://portfolio-maker-aovl.onrender.com/clients/angsuman-das/) |
+| ⚡ **Live Publish API** | `https://portfolio-maker-aovl.onrender.com/api/publish` |
 
 ---
 
 ## ✨ Features
 
-- 🛡️ **Local-First Privacy**: Build and manage portfolios locally without relying on third-party SaaS databases or external tracking.
+- 🌐 **Direct Render Cloud Hosting**: Software Studio and client portfolio sites are hosted live directly on Render.com (`https://portfolio-maker-aovl.onrender.com`).
 - 🎨 **Studio Builder Interface**: Interactive visual studio (`generator.html`) for editing profile details, credentials, publications, and theme presets.
 - 👁️ **Real-Time Live Preview**: Instant live previewing of client sites before publishing.
 - 📄 **Categorized Document Vault**: Built-in support for Academic Degrees, Certifications, Work Experience, Research Publications, Identity Records, and Recommendations.
-- 🚀 **Automated GitHub Pages Deployment**: Native HTTP endpoint (`/api/publish`) that packages client sites and automatically commits & pushes updates to GitHub Pages.
+- 🚀 **Instant Live Publishing**: Native HTTP endpoint (`/api/publish`) that dynamically packages client sites and publishes them live at `https://<domain>/clients/<slug>/`.
 - 📱 **Modern Client Portfolios**: High-performance static client web apps with responsive design, search filtering, PDF previewing, and dark/light themes.
+- 📄 **Render Blueprint Ready**: Includes `render.yaml` for automatic 1-click deployment.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Backend**: Node.js (Built-in `http`, `fs`, `path`, `child_process`)
+- **Backend**: Node.js (Built-in `http`, `fs`, `path`, dynamic PORT binding)
 - **Frontend Studio**: Vanilla JS (ES6+), HTML5, CSS3, FontAwesome 6
 - **Typography & UI**: Plus Jakarta Sans, JetBrains Mono, Cormorant Garamond
 - **Client Template**: Responsive HTML/CSS/JS, jsPDF, HTML5 Canvas
@@ -32,7 +44,8 @@
 
 ```
 Portfolio_Maker/
-├── server.js              # Node.js local studio server & auto-git publish engine
+├── server.js              # Node.js studio server & dynamic publishing engine
+├── render.yaml            # Render.com Blueprint deployment spec
 ├── generator.html         # Studio interface for creating client portfolios
 ├── generator.js           # Studio state management, preview, & export logic
 ├── generator.css          # Modern dark-mode studio design system
@@ -41,8 +54,9 @@ Portfolio_Maker/
 │   ├── index.html
 │   ├── client.css
 │   └── client.js
-└── clients/               # Published client document vaults
+└── clients/               # Live published client document vaults
     ├── angsuman/
+    ├── angsuman-das/
     ├── dr-alex-vance/
     ├── shampoo-kakati/
     └── sumpimoni-das/
@@ -50,7 +64,7 @@ Portfolio_Maker/
 
 ---
 
-## ⚡ Quick Start
+## ⚡ Running Locally
 
 ### 1. Clone the Repository
 ```bash
@@ -70,18 +84,11 @@ Navigate to `http://localhost:8080/generator.html` to launch the Portfolio Maker
 
 ---
 
-## 🚀 Publishing to GitHub Pages
+## 🚀 Deploying to Render.com
 
-1. Fill in client details and upload documents in the Studio UI.
-2. Click **Publish & Push to GitHub Pages**.
-3. The server will generate the site under `clients/<slug>/` and run automated git commands:
-   ```bash
-   git add clients/<slug>
-   git commit -m "Publish client site: <clientName>"
-   git push origin main
-   ```
-4. Access the live client portfolio at:
-   `https://<your-username>.github.io/Portfolio_Maker/clients/<slug>/`
+1. Fork or clone this repository to your GitHub account (`Angsumi/Portfolio_Maker`).
+2. Go to **[Render.com Dashboard](https://dashboard.render.com)** → **New +** → **Blueprint**.
+3. Select `Angsumi/Portfolio_Maker`. Render will automatically detect `render.yaml` and launch your service!
 
 ---
 
